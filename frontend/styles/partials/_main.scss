@@ -1,0 +1,27 @@
+.main-books, .profile-page {
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 100px;
+    h2 {
+        margin-bottom: 4px;
+        margin-top: 4px;
+        margin-left: 12px;
+    }
+    .book-div {
+        @include flex($justify:flex-start);
+        margin-bottom: 16px;
+        .book-text {
+            margin-left: 12px;
+        }
+        .book-image {
+            margin-left: auto;
+        }
+    }
+}
+
+
+#favorite {
+  align-self: flex-start;
+  margin-top: 6px;
+}

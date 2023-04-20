@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_author_authors",
+  "info": {
+    "displayName": "author"
+  },
+  "options": {},
+  "attributes": {
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

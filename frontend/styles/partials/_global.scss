@@ -1,0 +1,76 @@
+//--------------------------------------GENERAL--------------------------------------------
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.startpage-wrapper {
+    min-height: 100vh;
+    @include flex($direction:column);
+}
+
+.hidden {
+    display: none;
+}
+
+//--------------------------------------HEADER--------------------------------------------
+.header {
+    background-color: $color1;
+    width: 100%;
+    height: 100px;
+    padding: 20px;
+    @include flex($justify:space-between, $align:center);
+    .header-links-buttons-wrap {
+        @include flex($align:center);
+        .navbar-header {
+            padding-right:48px;
+        }
+    }
+    .home-link {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+.nav-ul-header {
+    height: 100px;
+    @include flex($justify:space-around, $align: center);
+
+    li, a {
+        list-style-type: none;
+        text-decoration: none;
+        color: black;
+        margin-left: 12px;
+        font-size: large;
+    }
+}
+
+.no-styling-btn{
+   border: none;
+   background-color: $color1;
+   cursor: pointer;
+   font-family: 'Times New Roman', Times, serif;
+   font-size: large;
+   
+}
+
+//--------------------------------------FOOTER--------------------------------------------
+.footer-container {
+    margin-top: auto;
+    width: 100%;
+    height: 100px;
+    background-color: $color2;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    .footer-message {
+        margin-left: 12px;
+        margin-top: 4px;
+    }
+}

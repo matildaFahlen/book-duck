@@ -1,0 +1,97 @@
+.login-page {
+    min-height: 100vh;
+
+    @include flex($direction: column, $align:center);
+    .img-wrapper {
+        height: 40vh;
+        width: 100%;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+    .login-wrapper {
+        height: 60vh;
+        padding-left: 42px;
+        padding-right: 48px;
+        padding-top: 48px;
+        background-color: white;
+        @include flex($direction:column, $align:center);
+
+        .welcome-message {
+            margin-bottom: 56px;
+            h1 {
+                margin-bottom: 20px;
+            }
+        }
+
+        .input-section {
+            @include flex($direction: column);
+            margin-bottom: 16px;
+            input {
+                height: 38px;
+                width: 280px;
+                border-radius: 32px;
+                background-color: $color2;
+                border: none;
+                margin: 4px;
+                padding-left: 12px;
+                box-shadow: 1px 1px;
+            }
+        }
+       
+    }
+    .register-user {
+        height: 60vh;
+        padding-left: 42px;
+        padding-right: 48px;
+        padding-top: 48px;
+        background-color: white;
+        @include flex($direction:column, $align:center);
+        h2 {
+            margin-bottom: 24px;
+        }
+        input {
+            height: 38px;
+            width: 280px;
+            border-radius: 32px;
+            background-color: $color2;
+            border: none;
+            margin: 4px;
+            padding-left: 12px;
+            box-shadow: 1px 1px;
+        }
+    }
+}
+
+.close-window-btn {
+    align-self: flex-end;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#loginBtn, #registerBtn {
+    width: 280px;
+    border-radius: 32px;
+    background-color: $color1;
+    border: none;
+    padding: 8px;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px;
+}
+
+.register-wrap {
+    @include flex($justify:center, $align:center);
+    #addUserBtn {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-left: 4px;
+        color: $color1;
+    }
+}
+
+#registerBtn {
+    margin-top: 24px;
+}

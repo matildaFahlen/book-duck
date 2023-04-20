@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ducks Store</title>
+    <script type="module" src="./javascript/main.js" defer></script>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="startpage-wrapper">
+        <header class="header">
+            <a href="index.html" class="home-link">
+                <h1>Book Ducks</h1>
+            </a>
+            <div class="header-links-buttons-wrap">
+                <nav class="navbar-header">
+                    <ul class="nav-ul-header">
+                        <li class="hidden" id="homeLink">
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="hidden" id="profileLi">
+                            <a href="pages/profile.html">Profile</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="login-logout">
+                    <button id="loginHeaderBtn" class="no-styling-btn">Login</button>
+                    <button id="signOutBtn" class="no-styling-btn hidden">Sign out</button>
+                </div>
+            </div>
+        </header>             
+        <main class="main-books">
+            <h2>Our books</h2>
+        </main>
+        <footer class="footer-container">
+            <p class="footer-message"> <b>Found something you like? Visit our store at:</b> <br><br> <span class="footer-address">Duckstreet 11, <br> 111 22 Ankeborg <br> Tel: 0701234567</span></p>
+        </footer>
+    </div>
+    <div class="login-page">
+        <button id="closeWindow" class="close-window-btn">Close</button>
+        <div class="img-wrapper">
+            <img id="header-image" src="images/reading.png" alt="Books">
+        </div>
+        <main class="login-wrapper">
+            <section class="login-section welcome-message">
+                <h1>Welcome back</h1>
+                <p>Login to your account</p>
+            </section>
+            <section class="login-section input-section">
+                <input type="text" name="username" id="username" placeholder="Username">
+                <input type="password" name="userPassword" id="userPassword" placeholder="Password">
+            </section>
+            <section class="login-section login-and-register">
+                <button id="loginBtn">Login</button>
+                <span class="register-wrap">
+                    <p>Don't have an account?</p>
+                    <button id="addUserBtn">Sign up</button>
+                </span>
+            </section>
+        </main>
+        <div class="register-user hidden">
+            <h2>Register new account</h2>
+            <input type="email" name="newEmail" id="newEmail" placeholder="Email">
+            <input type="text" name="newUsername" id="newUsername" placeholder="Username">
+            <input type="password" name="newUserPassword" id="newUserPassword" placeholder="Password">
+            <button id="registerBtn">Save</button>
+        </div>
+        <p id="greeting" class="greeting hidden"></p>
+    </div>
+</body>
+</html>
