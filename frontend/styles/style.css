@@ -94,7 +94,7 @@ body {
 }
 .main-books h2, .profile-page h2 {
   margin-bottom: 4px;
-  margin-top: 4px;
+  margin-top: 8px;
   margin-left: 12px;
 }
 .main-books .book-div, .profile-page .book-div {
@@ -110,6 +110,12 @@ body {
 }
 .main-books .book-div .book-image, .profile-page .book-div .book-image {
   margin-left: auto;
+}
+
+.h2 {
+  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-left: 12px;
 }
 
 #favorite {
@@ -230,4 +236,14 @@ body {
 
 #registerBtn {
   margin-top: 24px;
+}
+
+.h2 {
+  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-left: 12px;
+}
+
+.remove-btn {
+  margin-top: 4px;
 }/*# sourceMappingURL=style.css.map */

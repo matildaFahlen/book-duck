@@ -1,5 +1,3 @@
-/* export const myExport = 'Hello from main.js!'; */
-
 // Hämtar böckerna från API
 let bookArr = [];
 let getData = async () => {
@@ -64,6 +62,7 @@ let showData = async () => {
     rateSelect.addEventListener("change", () => {
       if (sessionStorage.getItem("token")) {
         let selectedOption = rateSelect.options[rateSelect.selectedIndex];
+        
         giveRating(selectedOption.value, book.id);
       }
       else {
@@ -71,18 +70,20 @@ let showData = async () => {
       }
     });
   
-    // Check if this book is already a favorite
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    let isFavorite = favorites.some((favorite) => favorite.id === book.id);
-    selectFavorite.checked = isFavorite;
-
+    // Check if this book is already a favorite för inloggade användaren
+    
+    // addEventListener på selectFavorite med change
     selectFavorite.addEventListener("change", () => {
-      if (selectFavorite.checked) {
-        saveFavorite(book);
-      } else {
-        removeFavorite(book);
+      if (sessionStorage.getItem("token") && selectFavorite.checked) {
+        favoriteBooks(book.id);
+      } else if (sessionStorage.getItem("token")) {
+        removeFavorite(book.id);
       }
-    });
+      else {
+        alert("To save a book you need to log in first.");
+        selectFavorite.checked = false;
+      }
+    })
   });
 };
 showData();
@@ -184,37 +185,53 @@ document.querySelector("#closeWindow").addEventListener("click", () => {
   loginHeaderBtn.style.display = "block";
 })
 
-// Spara böcker till "att läsa lista"
-function saveFavorite(book) {
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (!favorites.some((favorite) => favorite.id === book.id) && sessionStorage.getItem("token")) {
-      favorites.push(book);
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-    }
-  }
-  
-  function removeFavorite(book) {
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    let newFavorites = favorites.filter((favorite) => favorite.id !== book.id);
-    localStorage.setItem("favorites", JSON.stringify(newFavorites));
-  }
-  
-  // Hantera lagringen av favoriter i localStorage (Add an event listener for the storage event)
-  window.addEventListener("storage", (event) => {
-    if (event.key === "favorites") {
-      // Get all checkboxes with id "favorite"
-      let checkboxes = document.querySelectorAll("#favorite");
-  
-      // Update the checked state of each checkbox based on localStorage data
-      checkboxes.forEach((checkbox) => {
-        let bookDiv = checkbox.closest(".book-div");
-        let bookId = bookDiv.dataset.bookId;
-        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-        let isFavorite = favorites.some((favorite) => favorite.id === bookId);
-        checkbox.checked = isFavorite;
-      });
-    }
-  });
+// Spara böcker
+let favoriteBooks = async (bookId) => {
+  let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}?populate=*`);
+  let data = await response.json();
+  let favoriteBooks = [];
+  data.books.forEach((book) => {
+    favoriteBooks.push(book.id);
+  })
+  favoriteBooks.push(bookId);
+  localStorage.setItem("favoriteBooksId", favoriteBooks) //TESTA HÄR
+  savedBooksCheck();
+  addFavoriteBooks(favoriteBooks); 
+}
+
+let addFavoriteBooks = async (favoriteBooks) => {
+  let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}`, {
+     //config
+     method: "PUT",
+     body: JSON.stringify({
+        books: favoriteBooks,
+     }),
+     headers: {
+       "Content-Type": "application/json",
+       "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+     },
+   });
+   let data = await response.json();
+   console.log(favoriteBooks);
+}
+
+let removeFavorite = async (bookId) => {
+  let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}?populate=*`);
+  let data = await response.json();
+  let favoriteBooks = [];
+  data.books.forEach((book) => {
+    favoriteBooks.push(book.id);
+  })
+  let value = bookId;
+  let index = favoriteBooks.indexOf(value);
+  favoriteBooks.splice(index, 1);
+  addFavoriteBooks(favoriteBooks); 
+  console.log(`du har avmarkerat (i DOM:en) bok med id: ${bookId}`);
+}
+
+let savedBooksCheck = () => {
+  localStorage.getItem("favoriteBooksId"); 
+}
 
 // Registrera nya användare
 let registerUser = async () => {
@@ -260,6 +277,7 @@ let signOut = () => {
 }
 document.querySelector("#signOutBtn").addEventListener("click", signOut);
 
+// Ge betyg
 let giveRating = async (value, bookId) => {
     let response = await fetch("http://localhost:1337/api/ratings?populate=*", {
      //config

@@ -1,9 +1,31 @@
-let showFavorites = () => {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    let profilePage = document.querySelector(".profile-page");
+let getFavorites = async () => {
+    let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}?populate=*`);
+    let data = await response.json();
+    let favoriteBooks = [];
+    data.books.forEach((book) => {
+      favoriteBooks.push(book.id);
+      localStorage.setItem("favoriteBooksId", favoriteBooks);
+    })
+    saveFavoriteBooks(favoriteBooks);   
+}
 
-    favorites.forEach(book => {
+let saveFavoriteBooks = async (books) => {
+    let response = await fetch("http://localhost:1337/api/books?populate=*");
+    let data = await response.json();
+    let favoriteBooks = data.data.filter((book) => books.includes(book.id));
+    localStorage.setItem("favoriteBooks", JSON.stringify(favoriteBooks));
+    showFavorites();
+  };  
+
+let showFavorites = () => {
+    let profilePage = document.querySelector(".profile-page");
+    profilePage.innerHTML = "";
+    let favorites = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+
+    favorites.forEach((book) => {
         let bookDiv = document.createElement("div");
+        let removeFavoriteBtn = document.createElement("button");
+        removeFavoriteBtn.innerText = "Delete";
         let { title, author, pages, published, cover } = book.attributes;
         bookDiv.innerHTML = `<div class="book-text">
         <h3>${title}</h3>
@@ -16,10 +38,49 @@ let showFavorites = () => {
         </div>
         `;
         profilePage.append(bookDiv);
+        bookDiv.prepend(removeFavoriteBtn);
         bookDiv.classList.add("book-div");
+        removeFavoriteBtn.classList.add("remove-btn");
+
+        removeFavoriteBtn.addEventListener("click", (event) => {
+            removeFavoriteBook(book.id);
+        });
+        
     });
 }
-showFavorites();
+getFavorites();
+
+let addFavoriteBooks = async (favoriteBooks) => {
+    let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}`, {
+       //config
+       method: "PUT",
+       body: JSON.stringify({
+          books: favoriteBooks,
+       }),
+       headers: {
+         "Content-Type": "application/json",
+         "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+       },
+     });
+     let data = await response.json();
+     console.log(favoriteBooks);
+  }
+
+let removeFavoriteBook = async (bookId) => {
+    let response = await fetch(`http://localhost:1337/api/users/${sessionStorage.getItem("userId")}?populate=*`);
+    let data = await response.json();
+    let favoriteBooks = [];
+    data.books.forEach((book) => {
+      favoriteBooks.push(book.id);
+    })
+
+    let value = bookId;
+    let index = favoriteBooks.indexOf(value);
+    favoriteBooks.splice(index, 1);
+    addFavoriteBooks(favoriteBooks);  
+    getFavorites();
+    console.log(`du har avmarkerat (i DOM:en) bok med id: ${bookId}`);
+  }
 
 let showUser = () => {
     if (sessionStorage.getItem("token")) {

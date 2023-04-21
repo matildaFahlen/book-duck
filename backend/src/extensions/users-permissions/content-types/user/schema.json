@@ -71,6 +71,11 @@
       "relation": "oneToMany",
       "target": "api::rating.rating",
       "mappedBy": "users_permissions_user"
+    },
+    "books": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::book.book"
     }
   }
 }
